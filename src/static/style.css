@@ -1,0 +1,114 @@
+body {
+  font-family: monospace;
+  font-size: 12px;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+* {
+    box-sizing: border-box;
+}
+svg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+svg #row {
+  stroke: #7df9ff;
+  transition: all 1s;
+}
+svg #row.theme-light {
+  fill: #f2f2f2;
+}
+svg #row.theme-dark {
+  fill: #181818;
+}
+
+svg #hex.on {
+  fill: #7df9ff;
+}
+
+.five-neighbours {
+  fill: #7d99ff !important;
+  stroke: #7d99ff !important;
+}
+.six-neighbours {
+  fill: #827dff !important;
+  stroke: #827dff !important;
+}
+.three-neighbours {
+  fill: #7dd9ff !important;
+  stroke: #7dd9ff !important;
+}
+.four-neighbours {
+  fill: #7db9ff !important;
+  stroke: #7db9ff !important;
+}
+
+.panel {
+  padding: 0 50px;
+  background: rgba(255, 255, 255, 0.9);
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 70px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+}
+.theme {
+  display: flex;
+  flex-direction: row;
+  width: 100px;
+  justify-content: space-between;
+  align-items: center;
+  margin-right: 50px;
+}
+.breadcrumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+.breadcrumb:hover {
+  box-shadow: 0 10px 24px rgba(0,0,0,0.25), 0 3px 3px rgba(0,0,0,0.22);
+}
+.breadcrumb.light {
+  background-color: #f2f2f2;
+}
+.breadcrumb.dark {
+  background-color: #181818;
+}
+.restart {
+  font-size: 13px;
+  width: 90px;
+  height: 40px;
+  background: transparent;
+  border: 1px solid #181818;
+}
+.restart:hover {
+  background: #181818;
+  color: #f2f2f2;
+  border: 2px solid #181818;
+}
+.restart:focus {
+  outline:0;
+}
+label {
+  margin-right: 10px;
+}
+#speed {
+  opacity: 0.8;
+  -webkit-appearance: none;
+  margin-right: 50px;
+  transform: rotate(180deg);
+  background: #b9b9b9;
+  border: none;
+  border-radius: 10px;
+  height: 8px;
+}
+#speed:focus {
+  outline:0;
+}
