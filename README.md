@@ -21,6 +21,8 @@ npm i
 ```sh
 npm start
 ```
+head to http://localhost:8080/ to see the app running
+
 
 ## Build for production:
 
