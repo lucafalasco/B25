@@ -6,7 +6,7 @@ body {
   padding: 0;
 }
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 svg {
   position: absolute;
@@ -28,14 +28,6 @@ svg #hex.on {
   fill: #7df9ff;
 }
 
-.five-neighbours {
-  fill: #7d99ff !important;
-  stroke: #7d99ff !important;
-}
-.six-neighbours {
-  fill: #827dff !important;
-  stroke: #827dff !important;
-}
 .three-neighbours {
   fill: #7dd9ff !important;
   stroke: #7dd9ff !important;
@@ -44,11 +36,20 @@ svg #hex.on {
   fill: #7db9ff !important;
   stroke: #7db9ff !important;
 }
+.five-neighbours {
+  fill: #7d99ff !important;
+  stroke: #7d99ff !important;
+}
+.six-neighbours {
+  fill: #827dff !important;
+  stroke: #827dff !important;
+}
 
 .panel {
-  padding: 0 50px;
-  background: rgba(255, 255, 255, 0.9);
   position: fixed;
+  padding: 0 50px;
+  color: white;
+  background: rgba(0, 0, 0, 0.7);
   bottom: 0;
   width: 100%;
   height: 40px;
@@ -69,11 +70,11 @@ svg #hex.on {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+  border: 1px solid #7df9ff;
 }
 .breadcrumb:hover {
-  box-shadow: 0 10px 24px rgba(0,0,0,0.25), 0 3px 3px rgba(0,0,0,0.22);
+  border: 1px solid red !important;
+  cursor: pointer;
 }
 .breadcrumb.light {
   background-color: #f2f2f2;
@@ -82,16 +83,17 @@ svg #hex.on {
   background-color: #181818;
 }
 .restart {
+  color: white;
   font-size: 13px;
   width: 90px;
   height: 25px;
   background: transparent;
-  border: 1px solid #181818;
+  border: 1px solid #f2f2f2;
 }
 .restart:hover {
-  background: #181818;
-  color: #f2f2f2;
-  border: 2px solid #181818;
+  background: #f2f2f2;
+  color: #181818;
+  border: 2px solid #f2f2f2;
 }
 .restart:focus {
   outline:0;
@@ -104,10 +106,10 @@ label {
   -webkit-appearance: none;
   margin-right: 50px;
   transform: rotate(180deg);
-  background: #b9b9b9;
+  background: #7df9ff;
   border: none;
   border-radius: 10px;
-  height: 8px;
+  height: 5px;
 }
 #speed:focus {
   outline:0;
