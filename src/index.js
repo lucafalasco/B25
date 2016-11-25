@@ -1,11 +1,12 @@
 import { select } from 'd3-selection'
 import { scaleLinear } from 'd3-scale'
 
-let svgBBox = window.getComputedStyle(document.getElementById('game'))
-let windowWidth = parseFloat(svgBBox.getPropertyValue("width"))
-let windowHeight = parseFloat(svgBBox.getPropertyValue("height"))
+const windowOffset = 20
+const msTimestep = 100
 
-let msTimestep = 100
+let svgBBox = window.getComputedStyle(document.getElementById('game'))
+let windowWidth = parseFloat(svgBBox.getPropertyValue("width")) + windowOffset
+let windowHeight = parseFloat(svgBBox.getPropertyValue("height")) + windowOffset
 
 let columns = windowWidth / 35
 let rows = windowHeight / 30
@@ -81,8 +82,8 @@ function randomField() {
 }
 
 function reset() {
-  windowWidth = parseFloat(svgBBox.getPropertyValue("width"))
-  windowHeight = parseFloat(svgBBox.getPropertyValue("height"))
+  windowWidth = parseFloat(svgBBox.getPropertyValue("width")) + windowOffset
+  windowHeight = parseFloat(svgBBox.getPropertyValue("height")) + windowOffset
   columns = windowWidth / 35
   rows = windowHeight / 30
   field = randomField()
