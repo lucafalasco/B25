@@ -121,3 +121,23 @@ label {
 #speed-range:focus {
   outline:0;
 }
+
+@media only screen and (max-device-width: 480px) {
+  .theme, .speed {
+    display: none;
+  }
+  .panel {
+    height: 50px;
+    padding: 0 10px;
+    background: transparent;
+  }
+  .restart,
+  .restart:active,
+  .restart:focus {
+    font-size: 16px;
+    height: 40px;
+    width: 100px;
+    color: #f2f2f2;
+    background: rgba(0, 0, 0, 0.7);
+  }
+}
