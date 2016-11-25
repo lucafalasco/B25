@@ -1,5 +1,5 @@
-body {
-  font-family: monospace;
+html, body {
+  font-family: 'Space Mono', monospace;
   font-size: 12px;
   overflow: hidden;
   margin: 0;
@@ -8,14 +8,20 @@ body {
 * {
   box-sizing: border-box;
 }
+button {
+  font: 13px 'Space Mono';
+  padding: 0;
+}
+
 svg {
   position: absolute;
   width: 100%;
   height: 100%;
 }
 svg #row {
-  stroke: #7df9ff;
+  stroke: #14a5f7;
   transition: all 1s;
+  fill: #f2f2f2;
 }
 svg #row.theme-light {
   fill: #f2f2f2;
@@ -25,30 +31,30 @@ svg #row.theme-dark {
 }
 
 svg #hex.on {
-  fill: #7df9ff;
+  fill: #14a5f7;
 }
 
 .three-neighbours {
-  fill: #7dd9ff !important;
-  stroke: #7dd9ff !important;
+  fill: #0898ea !important;
+  stroke: #0898ea !important;
 }
 .four-neighbours {
-  fill: #7db9ff !important;
-  stroke: #7db9ff !important;
+  fill: #0788d1 !important;
+  stroke: #0788d1 !important;
 }
 .five-neighbours {
-  fill: #7d99ff !important;
-  stroke: #7d99ff !important;
+  fill: #0678b8 !important;
+  stroke: #0678b8 !important;
 }
 .six-neighbours {
-  fill: #827dff !important;
-  stroke: #827dff !important;
+  fill: #05689f !important;
+  stroke: #05689f !important;
 }
 
 .panel {
   position: fixed;
   padding: 0 50px;
-  color: white;
+  color: #f2f2f2;
   background: rgba(0, 0, 0, 0.7);
   bottom: 0;
   width: 100%;
@@ -70,10 +76,7 @@ svg #hex.on {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  border: 1px solid #7df9ff;
-}
-.breadcrumb:hover {
-  border: 1px solid red !important;
+  transition: 0.2s all;
   cursor: pointer;
 }
 .breadcrumb.light {
@@ -81,10 +84,14 @@ svg #hex.on {
 }
 .breadcrumb.dark {
   background-color: #181818;
+  box-shadow: inset 0 0 0 1px #f2f2f2;
 }
-.restart {
-  color: white;
-  font-size: 13px;
+.breadcrumb:hover {
+  box-shadow: inset 0 0 0 5px #14a5f7;
+}
+.restart,
+.restart:active {
+  color: #f2f2f2;
   width: 90px;
   height: 25px;
   background: transparent;
@@ -101,16 +108,16 @@ svg #hex.on {
 label {
   margin-right: 10px;
 }
-#speed {
+#speed-range {
   opacity: 0.8;
   -webkit-appearance: none;
   margin-right: 50px;
   transform: rotate(180deg);
-  background: #7df9ff;
+  background: #14a5f7;
   border: none;
   border-radius: 10px;
   height: 5px;
 }
-#speed:focus {
+#speed-range:focus {
   outline:0;
 }
