@@ -1,20 +1,23 @@
 import { select } from 'd3-selection'
 import { scaleLinear } from 'd3-scale'
 
-const windowOffset = 20
-const msTimestep = 100
+// initial iteration interval
+const iterationInterval = 100
 
-let svgBBox = window.getComputedStyle(document.getElementById('game'))
-let windowWidth = parseFloat(svgBBox.getPropertyValue("width")) + windowOffset
-let windowHeight = parseFloat(svgBBox.getPropertyValue("height")) + windowOffset
+// width and height of cellagon polygon in px
+const cellLength = 20
 
-let columns = windowWidth / 35
-let rows = windowHeight / 30
+const gameBBox = window.getComputedStyle(document.getElementById('game'))
+let windowWidth = parseFloat(gameBBox.getPropertyValue('width'))
+let windowHeight = parseFloat(gameBBox.getPropertyValue('height'))
+
+let columns = windowWidth / cellLength
+let rows = windowHeight / cellLength
 
 const xDomain = [0, columns]
 const yDomain = [0, rows]
 
-// Scales
+// positioning scales
 const xScale = scaleLinear()
   .domain(xDomain)
   .range([0, windowWidth])
@@ -23,8 +26,6 @@ const yScale = scaleLinear()
   .domain(yDomain)
   .range([0, windowHeight])
 
-const svg = select('svg')
-
 let field = randomField()
 
 function iterate() {
@@ -32,12 +33,12 @@ function iterate() {
   render(field)
 }
 
+const game = select('#game')
 render(field)
-let iteration = setInterval(iterate, msTimestep)
+setInterval(iterate, iterationInterval)
 
 function render(data) {
-  const hexPath = 'M37.321,10L20,0L2.679,10v20L20,40l17.321-10V10z'
-  const row = svg.selectAll('#row')
+  const row = game.selectAll('#row')
     .data(data)
 
   row.enter()
@@ -45,33 +46,33 @@ function render(data) {
     .attr('id', 'row')
 
   row.attr('transform', (d, i) =>
-    ((i % 2) === 1) ? 'translate(-17, 0)' : null
+    ((i % 2) === 1) ? `translate(${-cellLength / 2}, 0)` : null
   )
 
-  const hexUpdate = row.selectAll('#hex')
+  const cellUpdate = row.selectAll('#cell')
     .data(d => d)
 
-  const hexEnter = hexUpdate.enter()
+  const cellEnter = cellUpdate.enter()
 
-  hexEnter
-    .append('path')
-    .attr('id', 'hex')
-    .attr('d', hexPath)
+  cellEnter
+    .append('text')
+    .attr('id', 'cell')
     .attr('transform', (d) =>
-      'translate(' + (xScale(d.x) - 10) + ', ' + (yScale(d.y) - 10) + ')'
+      `translate(${xScale(d.x)}, ${yScale(d.y)})`
     )
 
-  hexUpdate
-    .classed('on', (d) => d.state === 1)
-    .classed('three-neighbours', (d) => d.liveNeighbours === 3)
-    .classed('four-neighbours', (d) => d.liveNeighbours === 4)
-    .classed('five-neighbours', (d) => d.liveNeighbours === 5)
-    .classed('six-neighbours', (d) => d.liveNeighbours === 6)
+  cellUpdate
+    .text(d => d.state ? '1' : '0')
+    .classed('on', d => d.state)
+    .classed('three-neighbours', d => d.liveNeighbours === 3)
+    .classed('four-neighbours', d => d.liveNeighbours === 4)
+    .classed('five-neighbours', d => d.liveNeighbours === 5)
+    .classed('six-neighbours', d => d.liveNeighbours === 6)
 }
 
 function randomField() {
   return Array(Math.ceil(rows)).fill().map((r, i) =>
-    Array(Math.ceil(columns)).fill().map((c, j) => (
+    Array(Math.ceil(columns + 1)).fill().map((c, j) => (
       {
         x     : j,
         y     : i,
@@ -82,10 +83,10 @@ function randomField() {
 }
 
 function reset() {
-  windowWidth = parseFloat(svgBBox.getPropertyValue("width")) + windowOffset
-  windowHeight = parseFloat(svgBBox.getPropertyValue("height")) + windowOffset
-  columns = windowWidth / 35
-  rows = windowHeight / 30
+  windowWidth = parseFloat(gameBBox.getPropertyValue('width'))
+  windowHeight = parseFloat(gameBBox.getPropertyValue('height'))
+  columns = windowWidth / cellLength
+  rows = windowHeight / cellLength
   field = randomField()
 }
 
@@ -108,7 +109,7 @@ function createNewGeneration(states) {
       liveNeighbours += states[r][y].state ? 1 : 0
       liveNeighbours += states[x][b].state ? 1 : 0
 
-      if (y % 2 === 1) {
+      if (y % 2) {
         liveNeighbours += states[l][t].state ? 1 : 0
         liveNeighbours += states[l][b].state ? 1 : 0
       } else {
@@ -118,7 +119,7 @@ function createNewGeneration(states) {
 
       const newGen = { ...states[x][y] }
 
-      // Apply rules B25/S34
+      // apply rules B25/S34
       if (thisState) {
         newGen.state = liveNeighbours === 3 || liveNeighbours === 4 ? 1 : 0
       } else {
@@ -132,23 +133,14 @@ function createNewGeneration(states) {
   return nextGen
 }
 
-// Listeners
+// listeners
 window.addEventListener('resize', reset)
-
-window.toggleTheme = function (t) {
-  svg.selectAll('#row').attr('class', `theme-${t}`)
-}
 
 window.restart = function (t) {
   reset()
 }
 
-select('svg')
+select('#game')
   .on('click', function () {
     reset()
   })
-
-window.updateSpeed = function (speed) {
-  clearInterval(iteration)
-  iteration = setInterval(iterate, speed)
-}
