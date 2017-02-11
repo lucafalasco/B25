@@ -10,20 +10,8 @@
 <meta charset="utf-8">
 
 <body>
-  <svg id="game" xmlns="http://www.w3.org/2000/svg" version="1.1"> </svg>
-  <div class="panel">
-    <div class="theme">
-      Theme:
-      <div class="breadcrumb light" onclick="toggleTheme('light')"></div>
-      <div class="breadcrumb dark" onclick="toggleTheme('dark')"></div>
-    </div>
-    <div class="speed">
-      <label for="speed">State Transition Speed:</label>
-      <input type="range" min="10" max="500" value="100" id="speed-range" step="1" oninput="updateSpeed(value)">
-    </div>
-    <button class="restart" onclick="restart()">RESTART</button>
-  </div>
-
+  <svg id="game"></svg>
+  <div class="restart" onclick="restart()">RESTART</div>
   <script src="bundle.js"></script>
 </body>
 
