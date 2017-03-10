@@ -1,18 +1,13 @@
-import { select } from 'd3-selection'
 import { scaleLinear } from 'd3-scale'
 
-// initial iteration interval
-const iterationInterval = 100
+// width and height of cell polygon in px
+const cellLength = 6
 
-// width and height of cellagon polygon in px
-const cellLength = 20
+let width = window.innerWidth
+let height = window.innerHeight
 
-const gameBBox = window.getComputedStyle(document.getElementById('game'))
-let windowWidth = parseFloat(gameBBox.getPropertyValue('width'))
-let windowHeight = parseFloat(gameBBox.getPropertyValue('height'))
-
-let columns = windowWidth / cellLength
-let rows = windowHeight / cellLength
+let columns = width / cellLength
+let rows = height / cellLength
 
 const xDomain = [0, columns]
 const yDomain = [0, rows]
@@ -20,54 +15,55 @@ const yDomain = [0, rows]
 // positioning scales
 const xScale = scaleLinear()
   .domain(xDomain)
-  .range([0, windowWidth])
+  .range([0, width])
 
 const yScale = scaleLinear()
   .domain(yDomain)
-  .range([0, windowHeight])
+  .range([0, height])
 
+// generate a random field to start from
 let field = randomField()
+
+const game = document.getElementById('game')
+const ctx = game.getContext('2d')
+game.width = width
+game.height = height
 
 function iterate() {
   field = createNewGeneration(field)
   render(field)
+  window.requestAnimationFrame(iterate)
 }
 
-const game = select('#game')
-render(field)
-setInterval(iterate, iterationInterval)
+function getCellColor(liveNeighboursCount) {
+  switch (liveNeighboursCount) {
+    case 2:
+      return '#878787'
+    case 3:
+      return '#AFAFAF'
+    case 4:
+      return '#D7D7D7'
+    case 5:
+      return '#FFFFFF'
+    default:
+      return '#5F5F5F'
+  }
+}
 
 function render(data) {
-  const row = game.selectAll('#row')
-    .data(data)
-
-  row.enter()
-    .append('g')
-    .attr('id', 'row')
-
-  row.attr('transform', (d, i) =>
-    ((i % 2) === 1) ? `translate(${-cellLength / 2}, 0)` : null
-  )
-
-  const cellUpdate = row.selectAll('#cell')
-    .data(d => d)
-
-  const cellEnter = cellUpdate.enter()
-
-  cellEnter
-    .append('text')
-    .attr('id', 'cell')
-    .attr('transform', (d) =>
-      `translate(${xScale(d.x)}, ${yScale(d.y)})`
-    )
-
-  cellUpdate
-    .text(d => d.state ? '1' : '0')
-    .classed('on', d => d.state)
-    .classed('three-neighbours', d => d.liveNeighbours === 3)
-    .classed('four-neighbours', d => d.liveNeighbours === 4)
-    .classed('five-neighbours', d => d.liveNeighbours === 5)
-    .classed('six-neighbours', d => d.liveNeighbours === 6)
+  data.forEach((row, rowIndex) => {
+    row.forEach(column => {
+      const xPosition = Math.floor((rowIndex % 2 === 1) ? (xScale(column.x) - cellLength / 2) : xScale(column.x))
+      const yPosition = Math.floor(yScale(column.y))
+      const fill = getCellColor(column.liveNeighbours)
+      if (column.state) {
+        ctx.fillStyle = fill
+        ctx.fillRect(xPosition, yPosition, cellLength / 2, cellLength / 2)
+      } else {
+        ctx.clearRect(xPosition, yPosition, cellLength / 2, cellLength / 2)
+      }
+    })
+  })
 }
 
 function randomField() {
@@ -76,18 +72,10 @@ function randomField() {
       {
         x     : j,
         y     : i,
-        state : Math.random() < 0.3 ? 1 : 0,
+        state : Math.random() < 0.5 ? 1 : 0,
       }
     ))
   )
-}
-
-function reset() {
-  windowWidth = parseFloat(gameBBox.getPropertyValue('width'))
-  windowHeight = parseFloat(gameBBox.getPropertyValue('height'))
-  columns = windowWidth / cellLength
-  rows = windowHeight / cellLength
-  field = randomField()
 }
 
 function createNewGeneration(states) {
@@ -133,14 +121,25 @@ function createNewGeneration(states) {
   return nextGen
 }
 
-// listeners
-window.addEventListener('resize', reset)
+function reset() {
+  // recalculate width and height
+  width = window.innerWidth
+  height = window.innerHeight
+  columns = width / cellLength
+  rows = height / cellLength
+  game.width = width
+  game.height = height
 
-window.restart = function (t) {
-  reset()
+  // generate a new field based on new dimensions
+  field = randomField()
 }
 
-select('#game')
-  .on('click', function () {
-    reset()
-  })
+render(field)
+window.requestAnimationFrame(iterate)
+
+// reset fileld on resize
+window.addEventListener('resize', reset)
+
+window.restart = function () {
+  reset()
+}

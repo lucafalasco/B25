@@ -16,27 +16,6 @@ html, body {
   background-color: #000000;
 }
 
-#cell {
-  font-weight: 600;
-  cursor: default;
-  fill: #161616;
-}
-#cell.on {
-  fill: #5F5F5F;
-}
-#cell.on.three-neighbours {
-  fill: #878787;
-}
-#cell.on.four-neighbours {
-  fill: #AFAFAF;
-}
-#cell.on.five-neighbours {
-  fill: #D7D7D7;
-}
-#cell.on.six-neighbours {
-  fill: #FFFFFF;
-}
-
 .restart {
   color: #FFFFFF;
   cursor: pointer;
@@ -52,13 +31,10 @@ html, body {
   html, body {
     font-size: 14px;
   }
-  .restart {
-    display: none;
-  }
 }
 
 @media (min-width: 1900px) {
   html, body {
-    font-size: 16px;
+    font-size: 14px;
   }
 }
