@@ -1,6 +1,6 @@
-# B25:S34
+# b25s34
 
-B25:S34 is a revisited implementation of the zero-player "Game of Life" cellular automaton algorithm devised by the British mathematician John Horton Conway.
+b25s34 is a revisited implementation of the zero-player "Game of Life" cellular automaton algorithm devised by the British mathematician John Horton Conway.
 
 Life takes place on a two dimensions hexagonal grid, the rules of the universe are B25/S34 (I found those to be the most stable/interesting for this kind of representation):
 
