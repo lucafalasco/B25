@@ -1,4 +1,5 @@
-html, body {
+html,
+body {
   font-family: 'Space Mono', monospace;
   font-size: 12px;
   overflow: hidden;
@@ -17,9 +18,11 @@ html, body {
 }
 
 .restart {
-  color: #FFFFFF;
+  color: #ffffff;
+  font-weight: 700;
   cursor: pointer;
   position: absolute;
+  letter-spacing: 3px;
   bottom: 15px;
   right: 15px;
 }
@@ -28,13 +31,15 @@ html, body {
 }
 
 @media only screen and (max-device-width: 480px) {
-  html, body {
+  html,
+  body {
     font-size: 14px;
   }
 }
 
 @media (min-width: 1900px) {
-  html, body {
+  html,
+  body {
     font-size: 14px;
   }
 }

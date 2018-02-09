@@ -1,7 +1,8 @@
 import { scaleLinear } from 'd3-scale'
+const FPS = 10
 
 // width and height of cell polygon in px
-const cellLength = 6
+const cellLength = 15
 
 let width = window.innerWidth
 let height = window.innerHeight
@@ -32,7 +33,6 @@ game.height = height
 function iterate() {
   field = createNewGeneration(field)
   render(field)
-  window.requestAnimationFrame(iterate)
 }
 
 function getCellColor(liveNeighboursCount) {
@@ -46,36 +46,45 @@ function getCellColor(liveNeighboursCount) {
     case 5:
       return '#FFFFFF'
     default:
-      return '#5F5F5F'
+      return '#2e2e2e'
   }
 }
 
 function render(data) {
+  ctx.clearRect(0, 0, width, height)
   data.forEach((row, rowIndex) => {
     row.forEach(column => {
-      const xPosition = Math.floor((rowIndex % 2 === 1) ? (xScale(column.x) - cellLength / 2) : xScale(column.x))
+      const xPosition = Math.floor(
+        rowIndex % 2 === 1 ? xScale(column.x) - cellLength / 2 : xScale(column.x)
+      )
       const yPosition = Math.floor(yScale(column.y))
-      const fill = getCellColor(column.liveNeighbours)
+      const fill = column.state ? getCellColor(column.liveNeighbours) : '#2e2e2e'
+
+      ctx.font = '400 12px Space Mono, monospace'
+      ctx.textAlign = 'center'
+      ctx.textBaseline = 'middle'
+      ctx.fillStyle = fill
       if (column.state) {
-        ctx.fillStyle = fill
-        ctx.fillRect(xPosition, yPosition, cellLength / 2, cellLength / 2)
+        ctx.fillText('1', xPosition, yPosition)
       } else {
-        ctx.clearRect(xPosition, yPosition, cellLength / 2, cellLength / 2)
+        ctx.fillText('0', xPosition, yPosition)
       }
     })
   })
 }
 
 function randomField() {
-  return Array(Math.ceil(rows)).fill().map((r, i) =>
-    Array(Math.ceil(columns + 1)).fill().map((c, j) => (
-      {
-        x     : j,
-        y     : i,
-        state : Math.random() < 0.5 ? 1 : 0,
-      }
-    ))
-  )
+  return Array(Math.ceil(rows))
+    .fill()
+    .map((r, i) =>
+      Array(Math.ceil(columns + 1))
+        .fill()
+        .map((c, j) => ({
+          x     : j,
+          y     : i,
+          state : Math.random() < 0.5 ? 1 : 0,
+        }))
+    )
 }
 
 function createNewGeneration(states) {
@@ -86,8 +95,8 @@ function createNewGeneration(states) {
     nextGen[x] = []
     row.forEach((column, y) => {
       const t = y - 1 < 0 ? ccy - 1 : y - 1 // top index
-      const r = x + 1 === ccx ? 0 : x + 1   // right index
-      const b = y + 1 === ccy ? 0 : y + 1   // bottom index
+      const r = x + 1 === ccx ? 0 : x + 1 // right index
+      const b = y + 1 === ccy ? 0 : y + 1 // bottom index
       const l = x - 1 < 0 ? ccx - 1 : x - 1 // left index
 
       const thisState = states[x][y].state
@@ -135,7 +144,9 @@ function reset() {
 }
 
 render(field)
-window.requestAnimationFrame(iterate)
+setInterval(() => {
+  iterate()
+}, 1000 / FPS)
 
 // reset fileld on resize
 window.addEventListener('resize', reset)
