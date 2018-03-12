@@ -1,0 +1,45 @@
+html,
+body {
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+* {
+  box-sizing: border-box;
+}
+
+#game {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: #000000;
+}
+
+.restart {
+  color: #ffffff;
+  font-weight: 700;
+  cursor: pointer;
+  position: absolute;
+  letter-spacing: 3px;
+  bottom: 15px;
+  right: 15px;
+}
+.restart:hover {
+  text-decoration: underline;
+}
+
+@media only screen and (max-device-width: 480px) {
+  html,
+  body {
+    font-size: 14px;
+  }
+}
+
+@media (min-width: 1900px) {
+  html,
+  body {
+    font-size: 14px;
+  }
+}

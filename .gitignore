@@ -26,10 +26,6 @@ node_modules
 # node-waf configuration
 .lock-wscript
 
-# Compiled binary addons (http://nodejs.org/api/addons.html)
-build/Release
-dist/
-
 # Dependency directories
 node_modules
 jspm_packages
