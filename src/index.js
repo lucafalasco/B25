@@ -4,11 +4,11 @@ const FPS = 10
 // width and height of cell polygon in px
 const cellLength = 15
 
-let width = window.innerWidth
-let height = window.innerHeight
+let width = window.innerWidth * 2
+let height = window.innerHeight * 2
 
-let columns = width / cellLength
-let rows = height / cellLength
+let columns = width / 2 / cellLength
+let rows = height / 2 / cellLength
 
 const xDomain = [0, columns]
 const yDomain = [0, rows]
@@ -55,12 +55,12 @@ function render(data) {
   data.forEach((row, rowIndex) => {
     row.forEach(column => {
       const xPosition = Math.floor(
-        rowIndex % 2 === 1 ? xScale(column.x) - cellLength / 2 : xScale(column.x)
+        rowIndex % 2 === 1 ? xScale(column.x) - cellLength : xScale(column.x)
       )
       const yPosition = Math.floor(yScale(column.y))
       const fill = column.state ? getCellColor(column.liveNeighbours) : '#2e2e2e'
 
-      ctx.font = '400 12px Space Mono, monospace'
+      ctx.font = '400 24px Space Mono, monospace'
       ctx.textAlign = 'center'
       ctx.textBaseline = 'middle'
       ctx.fillStyle = fill
@@ -80,9 +80,9 @@ function randomField() {
       Array(Math.ceil(columns + 1))
         .fill()
         .map((c, j) => ({
-          x     : j,
-          y     : i,
-          state : Math.random() < 0.5 ? 1 : 0,
+          x: j,
+          y: i,
+          state: Math.random() < 0.5 ? 1 : 0,
         }))
     )
 }
@@ -151,6 +151,6 @@ setInterval(() => {
 // reset fileld on resize
 window.addEventListener('resize', reset)
 
-window.restart = function () {
+window.restart = function() {
   reset()
 }
