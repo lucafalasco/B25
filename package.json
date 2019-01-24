@@ -1,17 +1,21 @@
 {
-  "name": "b25s34",
+  "name": "b25",
   "version": "1.0.0",
   "author": "Luca Falasco",
   "description": "Game of Life Implementation with hexagonal grid and custom rules",
   "repository": {
     "type": "git",
-    "url": "https://github.com/lucafalasco/b25s34.git"
+    "url": "https://github.com/lucafalasco/b25.git"
   },
   "scripts": {
     "start": "webpack-dev-server",
     "build": "([ -d dist ] && rm -R dist/); mkdir -p dist && cp -R src/static/* dist/ && NODE_ENV=production webpack"
   },
-  "keywords": ["gameoflife", "canvas", "d3"],
+  "keywords": [
+    "gameoflife",
+    "canvas",
+    "d3"
+  ],
   "license": "MIT",
   "devDependencies": {
     "babel-core": "^6.13.2",
